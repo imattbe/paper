@@ -1,0 +1,117 @@
+body{
+    font-family: 'Space Grotesk', sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 500;
+    background-color: rgb(250, 250, 249);
+}
+
+.container {
+    width: 70%;
+    margin: 0 auto;
+}
+
+.content {
+    padding: 5px;
+}
+
+figure {
+    max-width: 300px;
+    height: auto;
+    margin-bottom: 20px;
+}
+
+figcaption{
+    opacity: 70%;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+  }
+
+.right {
+    float: right;
+    margin-left: 20px;
+    margin-bottom: 0;
+}
+
+.left {
+    float: left;
+    margin-right: 20px;
+    margin-bottom: 0;
+}
+
+sup{
+    vertical-align: super;
+}
+  
+@media screen and (max-width: 600px) {
+    .container {
+        width: 90%;
+        margin: 0 auto;
+    }
+    figure {
+      max-width: 100%;
+      float: none;
+      margin: 0 auto 20px auto;
+      display: block;
+    }
+  
+    .right {
+      float: none;
+      margin: 0 auto 20px auto;
+      display: block;
+    }
+
+    .left {
+        float: none;
+        margin: 0 auto 20px auto;
+        display: block;
+      }
+  }
+
+h1 + h2 { margin-top: -20px; }
+h2 + p { margin-top: -10px; }
+
+.title{
+    font-family: 'Noto Serif', sans-serif;
+    text-align: center;
+    font-size: xx-large;
+    font-weight: 700;
+    padding: 0px;
+}
+
+.subtitle{
+    opacity: 70%;
+    text-align: center;
+    font-size: large;
+    font-weight: 700;
+}
+
+.chaptertitle{
+    font-family: 'Noto Serif', sans-serif;
+    font-size: x-large;
+    font-weight: 700;
+}
+
+.header{
+    padding: 0.5%;
+}
+
+.text{
+    padding-left: 5%;
+    padding-right: 5%;
+}
+
+.chinese{
+    font: 'Noto Sans TC', sans-serif;
+}
+
+.footer{
+    padding: 0.5%;
+    opacity: 30%;
+    text-align: center;
+    font-size: medium;
+    font-weight: 700;
+    display: block;
+}
