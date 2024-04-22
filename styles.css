@@ -108,6 +108,7 @@ h2 + p { margin-top: -10px; }
 }
 
 .footer{
+    clear: both;
     padding: 0.5%;
     opacity: 30%;
     text-align: center;
