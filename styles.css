@@ -8,6 +8,7 @@ body{
 .container {
     width: 70%;
     margin: 0 auto;
+    max-width: 1200px;
 }
 
 .content {
@@ -17,7 +18,7 @@ body{
 figure {
     max-width: 300px;
     height: auto;
-    margin-bottom: 20px;
+    margin: 0 auto 20px;
 }
 
 figcaption{
@@ -101,10 +102,6 @@ h2 + p { margin-top: -10px; }
 .text{
     padding-left: 5%;
     padding-right: 5%;
-}
-
-.chinese{
-    font: 'Noto Sans TC', sans-serif;
 }
 
 .footer{
