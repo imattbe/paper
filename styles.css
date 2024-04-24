@@ -1,5 +1,6 @@
 * {
     box-sizing: border-box;
+    scroll-behavior: smooth;
   }
 
   .container {
@@ -62,6 +63,9 @@ sup{
     padding: 0 20px;
     border: 16px;
     display: block;
+    position:sticky;
+    top: 0;
+    margin-bottom: -4px;
   }
   
   .chapters a {
@@ -125,13 +129,13 @@ img {
 .right {
     float: right;
     margin-left: 20px;
-    margin-bottom: 0;
+    margin-bottom: 0px;
 }
 
 .left {
     float: left;
     margin-right: 20px;
-    margin-bottom: 0;
+    margin-bottom: 0px;
 }
 
   /* Responsive Bit */
