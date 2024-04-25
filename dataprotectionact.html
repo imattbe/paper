@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Acts in the UK</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/x-icon" href="favicon.ico">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,100..900;1,100..900&family=Space+Grotesk:wght@300..700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<div class="header">
+    <h1 class="title" style="font-size: xx-large;">Acts in the UK</h1>
+</div>
+<div class="container">
+<div style="overflow:auto;">
+  <div class="chapters">
+    <div class ="chaptersheader">
+    <h3 class="contentsheading">Sections</h3>
+    <button id="toggleChapters">hide</button>
+  </div>
+    <div id="chapters" style="border-left: solid #00000010;">
+    <a href="#DataProtectionAct">The Data Protection Act</a>
+    <div style="margin-left: 10px;">
+      <a href="#Collection">The Collection of Data</a>
+      <a href="#Processing">Data Processing</a>
+      <a href="#Storage">Storing Data</a>
+      <a href="#GDPR">GDPR</a>
+    </div>
+    <a href="#RIPAAct">The RIPA Act</a>
+    <div style="margin-left: 10px;">
+      <a href="#SurveillanceAndMonitoring">Surveillance and Monitoring</a>
+    </div>
+  </div>
+  </div>
+
+  <div class="main">
+    <!-- The Content -->
+        <h2 class="chaptertitle" id="Collection">The Data Protection Act</h2>
+        <p>The Data Protection Act controls how personal information is used by organizations, businesses, or the government. It serves as the UK’s implementation of the <b>General Data Protection Regulation (GDPR)</b>. Under this act, everyone responsible for using personal data must adhere to strict rules known as <b>data protection principles</b>.</p>
+        <h3 class="chaptertitle" style="font-size: large" id="Collection">The Collection of Data</h3>
+        <hr>
+        <figure class="right">
+            <a href="https://www.teacherstern.com/wp-content/uploads/GDPR-cloud-1200x900.jpg"><img alt="Word art showing words linked to data protection" src="https://www.teacherstern.com/wp-content/uploads/GDPR-cloud-1200x900.jpg"></a>
+            <figcaption>Fig.1 - Word art showing words linked to data protection</figcaption>
+        </figure>
+        <p>There are two types of data that can be collected, <b>personal</b> (name, age, Email address, etc) and <b>sensitive</b> (religion, health conditions, etc). Most information stored is personal as it is often needed to create a profile for a person, but for both (sensitive data is particular), there must be a legitimate reason for needing each piece of data.</p>
+        <h3 class="chaptertitle" style="font-size: large" id="Processing">Data Processing</h3>
+        <hr>
+        <p>All data processing must comply with the Data Protection Act, by being transparent with what data has been collected and what will be done with it. Access to the data must be fair between the Data <i>Controller</i> and the Data <i>Subject</i>, ensuring both parties can control what data they would like to collect or deny.</p>
+        <h3 class="chaptertitle" style="font-size: large" id="Storage">Storing Data</h3>
+        <hr>
+        <p>When data is stored it must be stored in a way where data is not kept forever, and data will not be retained is it is of no legitimate use, for example, when you join a college they will store your personal information as it is needed at that time, but a few years after you leave most personal information will be deleted off of their system.</p>
+        <h3 class="chaptertitle" style="font-size: large" id="GDPR">GDPR (General Data Protection Regulation)</h3>
+        <hr>
+        <p>GDPR is what the Data Protection Act is based off of, with some minor changes:</p>
+        <ul>
+          <li>Data Subjects get more rights</li>
+          <li>Data Subjects can submit freedom of information requests, gaining access to all information stored about themselves</li>
+          <li>Data subjects can request their data to be removed, or changed</li>
+          <li>Need permission to store data on under-13s (impact on social media)</li>
+        </ul>
+        <h2 class="chaptertitle" id="RIPAAct">The RIPA (Regulation of Investigatory Powers) Act</h2>
+        <h3 class="chaptertitle" style="font-size: large" id="SurveillanceAndMonitoring">Surveillance and Monitoring</h3>
+        <hr>
+        <p>The RIPA Act allows government organizations to monitor communications (emails, calls, texts, etc) and use other forms of surveillance. Government organisations with access to these powers include GCHQ (Government communications Head Quarters), the Police, amongst other organisations, however many need court orders to carry out surveillance and monitoring.</p>
+  </div>
+</div>
+</div>
+
+<div inert class="footer">Made by Matthew</div>
+
+<script>
+document.getElementById('toggleChapters').addEventListener('click', function() {
+    var chapters = document.getElementById('chapters');
+    if (chapters.style.display === 'none') {
+        chapters.style.display = 'block';
+        this.textContent = 'hide';
+    } else {
+        chapters.style.display = 'none';
+        this.textContent = 'show';
+    }
+});
+</script>
+</body>
+</html>
