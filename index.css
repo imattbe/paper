@@ -1,9 +1,37 @@
 :root {
-    --background-color: rgb(250, 250, 249);
+    --background-color: rgb(190, 190, 179);
     --primary-font: 'Space Grotesk', sans-serif;
     --secondary-font: 'Noto Serif', sans-serif;
     --font-color: black;
     --sections-list-border:solid #00000010;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.paper{
+    background-color: rgb(250, 250, 249);
+}
+.paper h1{
+    font-family: 'Noto Serif', sans-serif;
+}
+.paper h2{
+    font-family: 'Space Grotesk', sans-serif;
+}
+
+.computer-misuse-act-1990{
+    background-color: rgb(0, 0, 0);
+    color: rgb(103, 253, 103);
+    font-family: 'JetBrains Mono', monospace;
+}
+.computer-misuse-act-1990 h1{
+    font-family: 'JetBrains Mono', monospace;
+}
+
+.computer-misuse-act-1990 h1{
+    font-family: 'JetBrains Mono', monospace;
 }
 
 body{
@@ -17,7 +45,8 @@ body{
 }
 .preview{
     padding: 8px;
-    background-color: aqua;
-    margin-top: 4px;
-    margin-bottom: 4px;
+    padding-top: 16px;
+    padding-bottom: 16px;
+    margin-top: 6px;
+    margin-bottom: 6px;
 }
