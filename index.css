@@ -1,0 +1,23 @@
+:root {
+    --background-color: rgb(250, 250, 249);
+    --primary-font: 'Space Grotesk', sans-serif;
+    --secondary-font: 'Noto Serif', sans-serif;
+    --font-color: black;
+    --sections-list-border:solid #00000010;
+}
+
+body{
+    margin: 0px;
+}
+.title{
+    margin-top:10px;
+}
+.subtitle{
+    margin-bottom:16px;
+}
+.preview{
+    padding: 8px;
+    background-color: aqua;
+    margin-top: 4px;
+    margin-bottom: 4px;
+}

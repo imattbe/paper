@@ -7,13 +7,19 @@
     width: 90%;
     margin: 0 auto;
     max-width: 1600px;
+    overflow:auto;
 }
 
   body{
-    font-family: 'Space Grotesk', sans-serif;
+    color:var(--font-color);
+    background-color: var(--background-color);
+    font-family: var(--primary-font);
     font-optical-sizing: auto;
     font-weight: 450;
-    background-color: rgb(250, 250, 249);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--secondary-font);
 }
 
 .blank {
@@ -21,16 +27,12 @@
 }
 
 h1 + h2 { margin-top: -20px; }
-h2 + hr { margin-top: -10px; }
-h2 + h3 { margin-top: -10px; }
+h2 + hr,h2 + h3 { margin-top: -10px; }
 
 sup{
   vertical-align: super;
 }
 
-hr{
-  border-top: thin solid #00000010;
-}
 .footer{
   padding: 2%;
   opacity: 30%;
@@ -46,13 +48,13 @@ hr{
 }
 
   .title{
-    font-family: 'Noto Serif', sans-serif;
     text-align: center;
     font-size: xx-large;
     font-weight: 700;
 }
 
 .subtitle{
+    font-family: var(--primary-font);
     opacity: 70%;
     text-align: center;
     font-size: large;
@@ -61,7 +63,7 @@ hr{
 
   /* Chapters Bit */
   
-  .chapters {
+  .sections {
     float: left;
     width: 15%;
     padding: 0 20px;
@@ -70,31 +72,35 @@ hr{
     margin-bottom: -4px;
   }
   
-  .chapters a {
+  .sectionslist a {
+    color: var(--primary-font);
     padding: 8px;
     display: block;
-    color: black;
     opacity: 80%;
     margin-top:-10px;
+    text-decoration: none;
   }
 
-  .chaptersheader{
+  .sectionsheader{
     display: flex;
   }
 
-  #toggleChapters{
-    background-color: rgb(0, 0, 0, 0.1);
+  .togglesections{
+    font-family: var(--primary-font);
+    font-weight: 550;
     align-self:center;
     border: none;
     border-radius: 4px;
     padding: 8px;
   }
 
-  .contentsheading{
-    font-family: 'Noto Serif', sans-serif;
+  .sectionsheading{
     font-size: large;
     font-weight: 700;
     margin-right:10px;
+}
+.sectionslist{
+    border-left:var(--sections-list-border);
 }
 
   /* Main Bit */
@@ -105,8 +111,7 @@ hr{
     padding: 0 20px;
   }
 
-  .chaptertitle{
-    font-family: 'Noto Serif', sans-serif;
+  .sectiontitle{
     font-size: x-large;
     font-weight: 600;
 }
@@ -131,19 +136,19 @@ img {
 .right {
     float: right;
     margin-left: 20px;
-    margin-bottom: 0px;
+    margin-bottom: 10px;
 }
 
 .left {
     float: left;
     margin-right: 20px;
-    margin-bottom: 0px;
+    margin-bottom: 10px;
 }
 
   /* Responsive Bit */
 
 @media only screen and (max-width: 1350px) {
-    .chapters, .main, .blank {
+    .sections, .main, .blank {
       width: 100%;
     }
     .container {
@@ -152,7 +157,7 @@ img {
   }
 
   @media only screen and (max-width: 620px) {
-    .chapters, .main, .blank {
+    .sections, .main, .blank {
       width: 100%;
     }
     .container {

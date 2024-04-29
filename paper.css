@@ -1,0 +1,11 @@
+:root {
+    --background-color: rgb(250, 250, 249);
+    --primary-font: 'Space Grotesk', sans-serif;
+    --secondary-font: 'Noto Serif', sans-serif;
+    --font-color: black;
+    --sections-list-border:solid #00000010;
+}
+
+.sectionslist a:hover {
+    text-decoration: underline;
+}
