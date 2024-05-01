@@ -3,6 +3,10 @@
     scroll-behavior: smooth;
   }
 
+html{
+  font-size: 100%;
+}
+
   .container {
     width: 90%;
     margin: 0 auto;
@@ -26,7 +30,7 @@ h1, h2, h3, h4, h5, h6 {
   width: 15%;
 }
 
-h1 + h2 { margin-top: -20px; }
+h1 + h3 { margin-top: -30px; }
 h2 + hr,h2 + h3 { margin-top: -10px; }
 
 sup{
@@ -34,10 +38,9 @@ sup{
 }
 
 .footer{
-  padding: 2%;
+  padding: 20px;
   opacity: 30%;
   text-align: center;
-  font-size: medium;
   font-weight: 700;
 }
 
@@ -52,15 +55,14 @@ sup{
 
   .title{
     text-align: center;
-    font-size: xx-large;
     font-weight: 700;
+    font-size:250%;
 }
 
 .subtitle{
     font-family: var(--primary-font);
     opacity: 70%;
     text-align: center;
-    font-size: large;
     font-weight: 700;
 }
 
@@ -98,7 +100,6 @@ sup{
   }
 
   .sectionsheading{
-    font-size: large;
     font-weight: 700;
     margin-right:10px;
 }
@@ -115,7 +116,6 @@ sup{
   }
 
   .sectiontitle{
-    font-size: x-large;
     font-weight: 600;
 }
 

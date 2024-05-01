@@ -4,6 +4,10 @@
     --secondary-font: 'JetBrains Mono', monospace;
     --font-color: rgb(103, 253, 103);
     --sections-list-border:none;
+    --computer-misuse-act-1990-background-color: rgb(0, 0, 0);
+    --computer-misuse-act-1990-primary-font: 'JetBrains Mono', monospace;
+    --computer-misuse-act-1990-secondary-font: 'JetBrains Mono', monospace;
+    --computer-misuse-act-1990-font-color: rgb(103, 253, 103);
 }
 
 .togglesections{
