@@ -1,0 +1,23 @@
+:root {
+    --background-color: #faf9f7;
+    --primary-font: 'Quicksand', sans-serif;
+    --secondary-font: 'Quicksand', sans-serif;
+    --font-color: #344e41;
+    --sections-list-border:solid #00000010;
+    --copyright-background-color: #faf9f7;
+    --copyright-primary-font: 'Quicksand', sans-serif;
+    --copyright-secondary-font: 'Quicksand', sans-serif;
+    --copyright-font-color: #344e41;
+}
+
+body{
+    font-weight: 600;
+}
+
+.sectionslist a:hover {
+    text-decoration: underline;
+}
+
+.togglesections{
+    color: var(--font-color);
+}

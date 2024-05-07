@@ -26,3 +26,8 @@
     background-color: var(--font-color);
     color:var(--background-color);
 }
+
+::selection {
+    background-color: var(--font-color);
+    color: var(--background-color);
+}

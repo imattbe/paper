@@ -1,0 +1,19 @@
+:root {
+    --background-color: rgb(34, 87, 122);
+    --primary-font: 'Space Grotesk', sans-serif;
+    --secondary-font: 'Platypi', sans-serif;
+    --font-color: rgb(217, 217, 217);
+    --sections-list-border:solid #00000010;
+    --ripa-background-color: rgb(34, 87, 122);
+    --ripa-primary-font: 'Space Grotesk', sans-serif;
+    --ripa-secondary-font: 'Platypi', sans-serif;
+    --ripa-font-color: rgb(217, 217, 217);
+}
+
+.togglesections{
+    color: var(--background-color);
+}
+
+.sectionslist a:hover {
+    text-decoration: underline;
+}

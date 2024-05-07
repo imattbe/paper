@@ -2,12 +2,12 @@
     --background-color: rgb(250, 250, 245);
     --primary-font: 'Space Grotesk', sans-serif;
     --secondary-font: 'Noto Serif', sans-serif;
-    --font-color: black;
+    --font-color: rgb(21, 20, 19);
     --sections-list-border:solid #00000010;
     --paper-background-color: rgb(250, 250, 245);
     --paper-primary-font: 'Space Grotesk', sans-serif;
     --paper-secondary-font: 'Noto Serif', sans-serif;
-    --paper-font-color: black;
+    --paper-font-color: rgb(21, 20, 19);
 }
 
 .sectionslist a:hover {
