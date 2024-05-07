@@ -3,7 +3,7 @@
     --primary-font: 'Space Grotesk', sans-serif;
     --secondary-font: 'Platypi', sans-serif;
     --font-color: rgb(217, 217, 217);
-    --sections-list-border:solid #00000010;
+    --sections-list-border:solid rgba(217, 217, 217, 0.063);
     --ripa-background-color: rgb(34, 87, 122);
     --ripa-primary-font: 'Space Grotesk', sans-serif;
     --ripa-secondary-font: 'Platypi', sans-serif;
