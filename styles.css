@@ -52,7 +52,6 @@ sup{
   /* Header Bit */
 
   .header{
-    padding-top: 0.5%;
     padding-bottom: 0.5%;
     padding-left: 5.5%;
     padding-right: 5.5%;
@@ -190,3 +189,49 @@ img {
           display: block;
         }
   }
+
+
+    /* Nav Bar */
+
+    .navbar {
+      justify-content:center;
+      max-width:1120px;
+      width:95%;
+      background-color: var(--font-color);
+      border-radius:8px;
+      opacity:90%;
+      padding: 0;
+      margin: auto;
+      text-align:center;
+    }
+    
+    .navbar ul {
+      display: flex;
+    list-style: none;
+    justify-content: space-evenly;
+    }
+    
+    .navbar ul li {
+      display: flex;
+    }
+    
+    .navbar ul li a {
+      display: block;
+      color: var(--background-color);
+      text-decoration: none;
+      padding: 10px 20px;
+    }
+    .navbutton{
+      display:none;
+      align-self:right;
+    }
+
+
+    @media only screen and (max-width: 620px) {
+      .navbar {
+        display:none;
+      }
+      .navbutton{
+        display:block;
+      }
+    }

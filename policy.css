@@ -1,0 +1,20 @@
+:root {
+    --background-color: #e8e8e4;
+    --primary-font: 'DM Sans', sans-serif;
+    --secondary-font: 'Unbounded', sans-serif;
+    --font-color: #284b63;
+    --sections-list-border:solid #00000010;
+    --policy-background-color: #e8e8e4;
+    --policy-primary-font: 'DM Sans', sans-serif;
+    --policy-secondary-font: 'Unbounded', sans-serif;
+    --policy-font-color: #284b63;
+}
+
+.sectionslist a:hover {
+    text-decoration: underline;
+}
+
+.togglesections{
+    color: var(--background-color);
+    background-color: var(--font-color);
+}
