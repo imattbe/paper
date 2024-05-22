@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Geography OS Transect Generator</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            color: #333;
+            padding: 20px;
+        }
+        h1 {
+            color: #2e8b57;
+        }
+        form {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin: 10px 0 5px;
+        }
+        input, button {
+            padding: 10px;
+            margin-bottom: 10px;
+            width: 100%;
+            max-width: 300px;
+        }
+        .results {
+            margin-top: 20px;
+        }
+        .log-link {
+            color: #1e90ff;
+        }
+        #map {
+            height: 400px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Geography OS Transect Generator</h1>
+    <form id="transectForm">
+        <label for="numCoordinates">Enter the number of coordinates (up to 25):</label>
+        <input type="number" id="numCoordinates" name="numCoordinates" min="1" max="25" required>
+
+        <label for="logTitle">Enter a title for the log file:</label>
+        <input type="text" id="logTitle" name="logTitle" required>
+
+        <label for="osGridReference">Enter the OS grid coordinate (e.g., SJ 60476 10885):</label>
+        <input type="text" id="osGridReference" name="osGridReference" required>
+
+        <label for="transectSize">How large should the transect be (e.g., 20m, 30m):</label>
+        <input type="number" id="transectSize" name="transectSize" required>
+
+        <button type="submit">Generate Coordinates</button>
+    </form>
+    <div class="results" id="results"></div>
+    <div id="map"></div>
+
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.6.2/proj4.js"></script>
+    <script>
+        document.getElementById('transectForm').addEventListener('submit', async function(event) {
+            event.preventDefault();
+            
+            const numCoordinates = document.getElementById('numCoordinates').value;
+            const logTitle = document.getElementById('logTitle').value;
+            const osGridReference = document.getElementById('osGridReference').value;
+            const transectSize = document.getElementById('transectSize').value - 1;
+
+            try {
+                const coordinates = await generateRandomCoordinates(numCoordinates, transectSize);
+                displayCoordinates(coordinates, logTitle, osGridReference);
+                plotCoordinatesOnMap(coordinates, osGridReference);
+            } catch (error) {
+                console.error('Error generating coordinates:', error);
+                alert('Failed to generate coordinates. Please try again.');
+            }
+        });
+
+        async function generateRandomCoordinates(count, max) {
+            const response = await fetch('https://api.random.org/json-rpc/2/invoke', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    jsonrpc: '2.0',
+                    method: 'generateIntegers',
+                    params: {
+                        apiKey: '6a60a4e3-dc39-466b-9b2a-5290a7ff096c',
+                        n: count * 2,
+                        min: 0,
+                        max: max,
+                        replacement: true
+                    },
+                    id: 1
+                })
+            });
+
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+
+            const data = await response.json();
+            const randomNumbers = data.result.random.data;
+
+            const coordinates = [];
+            for (let i = 0; i < count; i++) {
+                coordinates.push([randomNumbers[i * 2], randomNumbers[i * 2 + 1]]);
+            }
+
+            return coordinates;
+        }
+
+        function displayCoordinates(coordinates, title, osGridReference) {
+            const origin = parseOsGridReference(osGridReference);
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.innerHTML = `<h2>${title}</h2><p>OS Grid Reference (Origin): ${osGridReference}</p><ul>`;
+
+            coordinates.forEach(coordinate => {
+                const easting = (origin.easting + coordinate[0]).toString().padStart(origin.easting.toString().length, '0');
+                const northing = (origin.northing + coordinate[1]).toString().padStart(origin.northing.toString().length, '0');
+                resultsDiv.innerHTML += `<li>(${coordinate[0]}, ${coordinate[1]}) -> ${origin.gridId} ${easting} ${northing}</li>`;
+            });
+
+            resultsDiv.innerHTML += `</ul><p>Generated on: ${new Date().toLocaleString()}</p>`;
+        }
+
+        function plotCoordinatesOnMap(coordinates, osGridReference) {
+    const origin = parseOsGridReference(osGridReference);
+    const originLatLng = osGridToLatLng(origin.easting, origin.northing);
+
+    const map = L.map('map').setView(originLatLng, 14);
+
+    L.tileLayer('https://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+        maxZoom: 30
+    }).addTo(map);
+
+    // Calculate the easting/northing differences for 10 meters
+    var eastingDiff = 1; // 1 meters in easting
+    var northingDiff = 1; // 1 meters in northing
+
+    // Determine the bounds of the transect
+    var minEasting = Math.min(...coordinates.map(coordinate => origin.easting + coordinate[0]));
+    var maxEasting = Math.max(...coordinates.map(coordinate => origin.easting + coordinate[0]));
+    var minNorthing = Math.min(...coordinates.map(coordinate => origin.northing + coordinate[1]));
+    var maxNorthing = Math.max(...coordinates.map(coordinate => origin.northing + coordinate[1]));
+
+    // Create the grid
+    for (var easting = minEasting; easting <= maxEasting; easting += eastingDiff) {
+        for (var northing = minNorthing; northing <= maxNorthing; northing += northingDiff) {
+            var southWest = osGridToLatLng(easting, northing);
+            var northEast = osGridToLatLng(easting + eastingDiff, northing + northingDiff);
+            var bounds = L.latLngBounds(southWest, northEast);
+            L.rectangle(bounds, {color: "#ff7800", weight: 1}).addTo(map);
+        }
+    }
+
+    coordinates.forEach(coordinate => {
+        const easting = (origin.easting + coordinate[0]).toString().padStart(origin.easting.toString().length, '0');
+        const northing = (origin.northing + coordinate[1]).toString().padStart(origin.northing.toString().length, '0');
+        const latLng = osGridToLatLng(parseInt(easting), parseInt(northing));
+        const marker = L.marker(latLng).addTo(map);
+        marker.bindPopup(`${origin.gridId} ${easting} ${northing}`);
+    });
+}
+
+        function parseOsGridReference(osGridReference) {
+            const parts = osGridReference.split(' ');
+            if (parts.length !== 3) {
+                throw new Error('Invalid OS grid reference format.');
+            }
+
+            const gridId = parts[0];
+            const easting = parseInt(parts[1]);
+            const northing = parseInt(parts[2]);
+
+            const gridOffsets = {
+                'SV': [0, 0], 'SW': [100000, 0], 'SX': [200000, 0], 'SY': [300000, 0], 'SZ': [400000, 0],
+                'TV': [500000, 0], 'TW': [600000, 0], 'SQ': [0, 100000], 'SR': [100000, 100000], 'SS': [200000, 100000],
+                'ST': [300000, 100000], 'SU': [400000, 100000], 'TQ': [500000, 100000], 'TR': [600000, 100000],
+                'SL': [0, 200000], 'SM': [100000, 200000], 'SN': [200000, 200000], 'SO': [300000, 200000],
+                'SP': [400000, 200000], 'TL': [500000, 200000], 'TM': [600000, 200000], 'SF': [0, 300000],
+                'SG': [100000, 300000], 'SH': [200000, 300000], 'SJ': [300000, 300000], 'SK': [400000, 300000],
+                'TF': [500000, 300000], 'TG': [600000, 300000], 'SA': [0, 400000], 'SB': [100000, 400000],
+                'SC': [200000, 400000], 'SD': [300000, 400000], 'SE': [400000, 400000], 'TA': [500000, 400000],
+                'TB': [600000, 400000], 'NV': [0, 500000], 'NW': [100000, 500000], 'NX': [200000, 500000],
+                'NY': [300000, 500000], 'NZ': [400000, 500000], 'OV': [500000, 500000], 'OW': [600000, 500000],
+                'NQ': [0, 600000], 'NR': [100000, 600000], 'NS': [200000, 600000], 'NT': [300000, 600000],
+                'NU': [400000, 600000], 'OQ': [500000, 600000], 'OR': [600000, 600000], 'NL': [0, 700000],
+                'NM': [100000, 700000], 'NN': [200000, 700000], 'NO': [300000, 700000], 'NP': [400000, 700000],
+                'OL': [500000, 700000], 'OM': [600000, 700000], 'NF': [0, 800000], 'NG': [100000, 800000],
+                'NH': [200000, 800000], 'NJ': [300000, 800000], 'NK': [400000, 800000], 'OF': [500000, 800000],
+                'OG': [600000, 800000], 'NA': [0, 900000], 'NB': [100000, 900000], 'NC': [200000, 900000],
+                'ND': [300000, 900000], 'NE': [400000, 900000], 'OA': [500000, 900000], 'OB': [600000, 900000],
+                'HV': [0, 1000000], 'HW': [100000, 1000000], 'HX': [200000, 1000000], 'HY': [300000, 1000000],
+                'HZ': [400000, 1000000], 'JV': [500000, 1000000], 'JW': [600000, 1000000], 'HQ': [0, 1100000],
+                'HR': [100000, 1100000], 'HS': [200000, 1100000], 'HT': [300000, 1100000], 'HU': [400000, 1100000],
+                'JQ': [500000, 1100000], 'JR': [600000, 1100000], 'HL': [0, 1200000], 'HM': [100000, 1200000],
+                'HN': [200000, 1200000], 'HO': [300000, 1200000], 'HP': [400000, 1200000], 'JL': [500000, 1200000],
+                'JM': [600000, 1200000], 'HF': [0, 1300000], 'HG': [100000, 1300000], 'HH': [200000, 1300000],
+                'HJ': [300000, 1300000], 'HK': [400000, 1300000], 'JF': [500000, 1300000], 'JG': [600000, 1300000],
+                'HA': [0, 1400000], 'HB': [100000, 1400000], 'HC': [200000, 1400000], 'HD': [300000, 1400000],
+                'HE': [400000, 1400000], 'JA': [500000, 1400000], 'JB': [600000, 1400000]
+            };
+
+            const offset = gridOffsets[gridId];
+
+            return {
+                gridId,
+                easting: offset[0] + easting,
+                northing: offset[1] + northing
+            };
+        }
+
+        function osGridToLatLng(easting, northing) {
+            const osgb36 = '+proj=tmerc +lat_0=49 +lon_0=-2 +k=0.9996012717 +x_0=400000 +y_0=-100000 +datum=OSGB36 +units=m +no_defs';
+            const wgs84 = '+proj=longlat +datum=WGS84 +no_defs';
+
+            const [longitude, latitude] = proj4(osgb36, wgs84, [easting, northing]);
+
+            return [latitude, longitude];
+        }
+    </script>
+</body>
+</html>
