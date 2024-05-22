@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Geography OS Transect Generator</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css">
-    <style>
+<style>
         body {
             font-family: Arial, sans-serif;
             background-color: #f0f0f0;
@@ -35,13 +35,48 @@
             color: #1e90ff;
         }
         #map {
-            height: 400px;
+            height: 600px;
             margin-top: 20px;
         }
+        .warning {
+            background-color: red;
+            padding: 25px;
+            color: white;
+display: flex;
+        align-items: center;
+        }
+        .warning p {
+            margin: 0;
+        }
+        .warning-symbol {
+            font-size: 24px;
+            margin-right: 10px;
+            animation: flash-symbol 1s infinite;
+        }
+        @keyframes flash {
+            0%, 50%, 100% {
+                opacity: 1;
+            }
+            25%, 75% {
+                opacity: 0;
+            }
+        }
+        @keyframes flash-symbol {
+            0%, 50%, 100% {
+                color: yellow;
+            }
+            25%, 75% {
+                color: red;
+            }
+        }
+.warning img {
+        margin-left: auto;
+    }
     </style>
 </head>
 <body>
     <h1>Geography OS Transect Generator</h1>
+     
     <form id="transectForm">
         <label for="numCoordinates">Enter the number of coordinates (up to 25):</label>
         <input type="number" id="numCoordinates" name="numCoordinates" min="1" max="25" required>
@@ -49,7 +84,7 @@
         <label for="logTitle">Enter a title for the log file:</label>
         <input type="text" id="logTitle" name="logTitle" required>
 
-        <label for="osGridReference">Enter the OS grid coordinate (e.g., SJ 60476 10885):</label>
+        <label for="osGridReference">Enter the OS grid coordinate (e.g., SJ 48715 12658):</label>
         <input type="text" id="osGridReference" name="osGridReference" required>
 
         <label for="transectSize">How large should the transect be (e.g., 20m, 30m):</label>
@@ -75,6 +110,7 @@
                 const coordinates = await generateRandomCoordinates(numCoordinates, transectSize);
                 displayCoordinates(coordinates, logTitle, osGridReference);
                 plotCoordinatesOnMap(coordinates, osGridReference);
+                generateKmlFile(coordinates, logTitle, osGridReference);
             } catch (error) {
                 console.error('Error generating coordinates:', error);
                 alert('Failed to generate coordinates. Please try again.');
@@ -120,8 +156,9 @@
             resultsDiv.innerHTML = `<h2>${title}</h2><p>OS Grid Reference (Origin): ${osGridReference}</p><ul>`;
 
             coordinates.forEach(coordinate => {
-                const easting = (origin.easting + coordinate[0]).toString().padStart(origin.easting.toString().length, '0');
-                const northing = (origin.northing + coordinate[1]).toString().padStart(origin.northing.toString().length, '0');
+                const easting = (origin.easting + coordinate[0]).toString().substring(1);
+const northing = (origin.northing + coordinate[1]).toString().substring(1);
+
                 resultsDiv.innerHTML += `<li>(${coordinate[0]}, ${coordinate[1]}) -> ${origin.gridId} ${easting} ${northing}</li>`;
             });
 
@@ -129,43 +166,48 @@
         }
 
         function plotCoordinatesOnMap(coordinates, osGridReference) {
-    const origin = parseOsGridReference(osGridReference);
-    const originLatLng = osGridToLatLng(origin.easting, origin.northing);
+            const origin = parseOsGridReference(osGridReference);
+            const originLatLng = osGridToLatLng(origin.easting, origin.northing);
 
-    const map = L.map('map').setView(originLatLng, 14);
+            const map = L.map('map').setView(originLatLng, 14);
 
-    L.tileLayer('https://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-        maxZoom: 30
-    }).addTo(map);
+            L.tileLayer('https://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+                maxZoom: 30
+            }).addTo(map);
 
-    // Calculate the easting/northing differences for 10 meters
-    var eastingDiff = 1; // 1 meters in easting
-    var northingDiff = 1; // 1 meters in northing
+            // Calculate the easting/northing differences for 10 meters
+            var eastingDiff = 1; // 1 meters in easting
+            var northingDiff = 1; // 1 meters in northing
 
-    // Determine the bounds of the transect
-    var minEasting = Math.min(...coordinates.map(coordinate => origin.easting + coordinate[0]));
-    var maxEasting = Math.max(...coordinates.map(coordinate => origin.easting + coordinate[0]));
-    var minNorthing = Math.min(...coordinates.map(coordinate => origin.northing + coordinate[1]));
-    var maxNorthing = Math.max(...coordinates.map(coordinate => origin.northing + coordinate[1]));
+            // Determine the bounds of the transect
+            var minEasting = Math.min(...coordinates.map(coordinate => origin.easting + coordinate[0]));
+            var maxEasting = Math.max(...coordinates.map(coordinate => origin.easting + coordinate[0]));
+            var minNorthing = Math.min(...coordinates.map(coordinate => origin.northing + coordinate[1]));
+            var maxNorthing = Math.max(...coordinates.map(coordinate => origin.northing + coordinate[1]));
 
-    // Create the grid
-    for (var easting = minEasting; easting <= maxEasting; easting += eastingDiff) {
-        for (var northing = minNorthing; northing <= maxNorthing; northing += northingDiff) {
-            var southWest = osGridToLatLng(easting, northing);
-            var northEast = osGridToLatLng(easting + eastingDiff, northing + northingDiff);
-            var bounds = L.latLngBounds(southWest, northEast);
-            L.rectangle(bounds, {color: "#ff7800", weight: 1}).addTo(map);
+            // Create the grid
+            for (var easting = minEasting; easting <= maxEasting; easting += eastingDiff) {
+                for (var northing = minNorthing; northing <= maxNorthing; northing += northingDiff) {
+                    var southWest = osGridToLatLng(easting, northing);
+                    var northEast = osGridToLatLng(easting + eastingDiff, northing + northingDiff);
+                    var bounds = L.latLngBounds(southWest, northEast);
+                    L.rectangle(bounds, {color: "#ff7800", weight: 1}).addTo(map);
+                }
+            }
+
+            coordinates.forEach(coordinate => {
+                const easting = (origin.easting + coordinate[0]).toString().padStart(origin.easting.toString().length, '0');
+                const northing = (origin.northing + coordinate[1]).toString().padStart(origin.northing.toString().length, '0');
+                const latLng = osGridToLatLng(parseInt(easting), parseInt(northing));
+                const marker = L.marker(latLng).addTo(map);
+                // Assuming easting and northing are already defined variables
+let eastingWithoutLeadingDigit = easting.toString().slice(1);
+let northingWithoutLeadingDigit = northing.toString().slice(1);
+
+// Then use it in your marker.bindPopup
+marker.bindPopup(`${origin.gridId} ${eastingWithoutLeadingDigit} ${northingWithoutLeadingDigit}`);
+            });
         }
-    }
-
-    coordinates.forEach(coordinate => {
-        const easting = (origin.easting + coordinate[0]).toString().padStart(origin.easting.toString().length, '0');
-        const northing = (origin.northing + coordinate[1]).toString().padStart(origin.northing.toString().length, '0');
-        const latLng = osGridToLatLng(parseInt(easting), parseInt(northing));
-        const marker = L.marker(latLng).addTo(map);
-        marker.bindPopup(`${origin.gridId} ${easting} ${northing}`);
-    });
-}
 
         function parseOsGridReference(osGridReference) {
             const parts = osGridReference.split(' ');
@@ -223,6 +265,57 @@
 
             return [latitude, longitude];
         }
+
+function generateKmlFile(coordinates, title, osGridReference) {
+    const origin = parseOsGridReference(osGridReference);
+    let kmlContent = `<?xml version="1.0" encoding="UTF-8"?>
+        <kml xmlns="http://www.opengis.net/kml/2.2">
+            <Document>
+                <name>${title}</name>
+                <description>OS Grid Reference: ${osGridReference}</description>
+                <Style id="yellowLineGreenPoly">
+                    <LineStyle>
+                        <color>7f00ffff</color>
+                        <width>4</width>
+                    </LineStyle>
+                    <PolyStyle>
+                        <color>7f00ff00</color>
+                    </PolyStyle>
+                </Style>`;
+
+    coordinates.forEach(coordinate => {
+        const easting = (origin.easting + coordinate[0]).toString().padStart(origin.easting.toString().length, '0');
+        const northing = (origin.northing + coordinate[1]).toString().padStart(origin.northing.toString().length, '0');
+
+        const [lat, lng] = osGridToLatLng(parseInt(easting), parseInt(northing));
+
+let eastingWithoutLeadingDigit = easting.toString().slice(1);
+let northingWithoutLeadingDigit = northing.toString().slice(1);
+
+
+        kmlContent += `
+            <Placemark>
+                <name>${origin.gridId} ${eastingWithoutLeadingDigit} ${northingWithoutLeadingDigit}</name>
+                <Point>
+                    <coordinates>${lng},${lat},0</coordinates>
+                </Point>
+            </Placemark>`;
+    });
+
+    kmlContent += `
+            </Document>
+        </kml>`;
+
+    const blob = new Blob([kmlContent], { type: 'application/vnd.google-earth.kml+xml' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `${title}.kml`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+}
+
     </script>
 </body>
 </html>
