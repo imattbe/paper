@@ -1,0 +1,150 @@
+* {
+  box-sizing: border-box;
+  scroll-behavior: smooth;
+}
+
+html{
+font-size: 100%;
+}
+
+.container {
+  width: 90%;
+  margin: 0 auto;
+  max-width: 1600px;
+  overflow:auto;
+}
+
+body{
+  color:var(--font-color);
+  background-color: var(--background-color);
+  font-family: var(--primary-font);
+  font-optical-sizing: auto;
+  font-weight: 450;
+}
+
+hr{
+border: 1px solid var(--font-color);
+opacity: 30%;
+}
+
+h1, h2, h3, h4, h5, h6 {
+font-family: var(--secondary-font);
+margin-bottom: -0.3em;
+}
+
+.blank {
+width: 15%;
+}
+
+h1 + h3 { margin-top: -30px; }
+h2 + hr,h2 + h3 { margin-top: -10px; }
+
+.footer{
+padding: 20px;
+opacity: 30%;
+text-align: center;
+font-weight: 700;
+}
+
+/* Header Bit */
+
+.header{
+  padding: 0.5% 5.5%;
+}
+
+.title{
+  text-align: center;
+  font-weight: 700;
+  font-size:250%;
+}
+
+.subtitle{
+  font-family: var(--primary-font);
+  opacity: 70%;
+  text-align: center;
+  font-weight: 700;
+}
+
+/* Chapters Bit */
+
+.sections {
+  float: left;
+  width: 15%;
+  padding: 0 20px;
+  border: 16px;
+  display: block;
+  margin-bottom: -4px;
+}
+
+.sectionslist a {
+  color: var(--primary-font);
+  padding: 8px;
+  display: block;
+  opacity: 80%;
+  margin-top:-10px;
+  text-decoration: none;
+}
+
+.sectionsheader{
+  display: flex;
+}
+
+.togglesections{
+  font-family: var(--primary-font);
+  font-weight: 550;
+  align-self:center;
+  border: none;
+  border-radius: 4px;
+  padding: 8px;
+  background-color:#f5f0f0;
+}
+
+.sectionsheading{
+  font-weight: 700;
+  margin-right:10px;
+  margin-bottom: 1em;
+}
+.sectionslist{
+  border-left:var(--sections-list-border);
+}
+
+/* Main Bit */
+
+.main {
+  float: left;
+  width: 70%;
+  padding: 0 20px;
+}
+
+.sectiontitle{
+  font-weight: 600;
+}
+
+/* Images and Figures */
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 2em auto;
+}
+
+/* Responsive Bit */
+
+@media only screen and (max-width: 1350px) {
+  .sections, .main, .blank {
+    width: 100%;
+  }
+  .container {
+    width: 80%;
+  }
+}
+
+@media only screen and (max-width: 620px) {
+  .sections, .main, .blank {
+    width: 100%;
+  }
+  .container {
+    width: 100%;
+  }
+}
